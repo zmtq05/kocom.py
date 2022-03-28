@@ -290,14 +290,15 @@ def thermo_parse(value):
 
 def light_parse(value):
     ret = {}
-    for i in range(1,9):
+    for i in range(1,2):
         ret['light_'+str(i)] = 'off' if value[i*2-2:i*2] == '00' else 'on'
     return ret
 
 
 def fan_parse(value):
     level_dic = {'40':'1', '80':'2', 'c0':'3'}
-    state = 'off' if value[:2] == '00' else 'on'
+    #state = 'off' if value[:2] == '00' else 'on'
+    state = 'off' if value[:2] == '10' else 'on'
     level = '0' if state == 'off' else level_dic.get(value[4:6])
     return { 'state': state, 'level': level}
 
@@ -467,7 +468,8 @@ def mqtt_on_message(mqttc, obj, msg):
     # kocom/livingroom/fan/command
     elif 'fan' in topic_d:
         dev_id = device_h_dic['fan'] + room_h_dic.get(topic_d[1])
-        onoff_dic = {'off':'0000', 'on':'1101'}
+        #onoff_dic = {'off':'0000', 'on':'1101'}
+        onoff_dic = {'off':'1000', 'on':'1100'}
         speed_dic = {'1':'40', '2':'80', '3':'c0'}
         if command == '0':
             command = 'off'
