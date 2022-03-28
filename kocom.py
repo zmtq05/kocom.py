@@ -26,6 +26,7 @@ import configparser
 
 CONFIG_FILE = 'kocom.conf'
 BUF_SIZE = 100
+INIT_TEMP = 23
 
 read_write_gap = 0.03  # minimal time interval between last read to write
 polling_interval = 300  # polling interval
@@ -283,7 +284,7 @@ def parse(hex_data):
 def thermo_parse(value):
     ret = { 'heat_mode': 'heat' if value[:2]=='11' else 'off',
             'away': 'true' if value[2:4]=='01' else 'false',
-            'set_temp': int(value[4:6], 16),
+            'set_temp': int(value[4:6], 16) if value[:2]=='11' else INIT_TEMP,
             'cur_temp': int(value[8:10], 16)}
     return ret
 
