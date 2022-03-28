@@ -284,7 +284,7 @@ def parse(hex_data):
 def thermo_parse(value):
     ret = { 'heat_mode': 'heat' if value[:2]=='11' else 'off',
             'away': 'true' if value[2:4]=='01' else 'false',
-            'set_temp': int(value[4:6], 16) if value[:2]=='11' else INIT_TEMP,
+            'set_temp': INIT_TEMP if int(value[4:6], 16)==5 else int(value[4:6], 16),
             'cur_temp': int(value[8:10], 16)}
     return ret
 
