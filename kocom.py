@@ -39,13 +39,13 @@ type_t_dic = {'30b':'send', '30d':'ack'}
 seq_t_dic = {'c':1, 'd':2, 'e':3, 'f':4}
 device_t_dic = {'01':'wallpad', '0e':'light', '2c':'gas', '36':'thermo', '44':'elevator', '48':'fan'}
 cmd_t_dic = {'00':'state', '01':'on', '02':'off', '3a':'query'}
-room_t_dic = {'00':'livingroom', '01':'room1', '02':'room2', '03':'room3'}
+room_t_dic = {'00':'livingroom', '01':'mainroom', '02':'computer', '03':'smallroom'}
 
 type_h_dic = {v: k for k, v in type_t_dic.items()}
 seq_h_dic = {v: k for k, v in seq_t_dic.items()}
 device_h_dic = {v: k for k, v in device_t_dic.items()}
 cmd_h_dic = {v: k for k, v in cmd_t_dic.items()}
-room_h_dic = {'livingroom':'00', 'myhome':'00', 'room1':'01', 'room2':'02', 'room3':'03'}
+room_h_dic = {'livingroom':'00', 'myhome':'00', 'mainroom':'01', 'computer':'02', 'smallroom':'03'}
 
 # mqtt functions ----------------------------
 
@@ -297,8 +297,7 @@ def light_parse(value):
 
 def fan_parse(value):
     level_dic = {'40':'1', '80':'2', 'c0':'3'}
-    #state = 'off' if value[:2] == '00' else 'on'
-    state = 'off' if value[:2] == '10' else 'on'
+    state = 'off' if value[:2] == '10' else 'on' #state = 'off' if value[:2] == '00' else 'on'
     level = '0' if state == 'off' else level_dic.get(value[4:6])
     return { 'state': state, 'level': level}
 
@@ -468,8 +467,7 @@ def mqtt_on_message(mqttc, obj, msg):
     # kocom/livingroom/fan/command
     elif 'fan' in topic_d:
         dev_id = device_h_dic['fan'] + room_h_dic.get(topic_d[1])
-        #onoff_dic = {'off':'0000', 'on':'1101'}
-        onoff_dic = {'off':'1000', 'on':'1100'}
+        onoff_dic = {'off':'1000', 'on':'1100'}  #onoff_dic = {'off':'0000', 'on':'1101'}
         speed_dic = {'1':'40', '2':'80', '3':'c0'}
         if command == '0':
             command = 'off'
