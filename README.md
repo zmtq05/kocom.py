@@ -2,6 +2,30 @@
 
 [Change log]
 
+(2022-03-29 수정) 전열교환기(Fan) 프리셋모드 추가 및 초기모드 사용자 설정, 난방 초기온도 설정
+
+# Example configuration.yaml with command templates
+fan:
+  - platform: mqtt
+    name: Livingroom Fan
+    command_topic: "kocom/livingroom/fan/command"
+    state_topic: "kocom/livingroom/fan/state"
+    state_value_template: "{{ value_json.state }}"
+    preset_mode_state_topic: "kocom/livingroom/fan/state"
+    preset_mode_value_template: "{{ value_json.level }}"
+    preset_mode_command_topic: "kocom/livingroom/fan/set_preset_mode/command"
+    preset_mode_command_template: "{{ value }}"
+    preset_modes:
+      - "0"
+      - "1"
+      - "2"
+      - "3"
+    payload_on: "on"
+    payload_off: "off"
+    qos: 0
+
+-------------------------------------------------------------------------------------
+
 (2020.9.25 수정) 엘리베이터 도착정보 추가, minor changes
 
 (2019.12.9 수정) github 개설, serial 강제 종료시 error handling
