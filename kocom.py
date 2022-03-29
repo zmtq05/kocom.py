@@ -668,9 +668,9 @@ if __name__ == "__main__":
     config = configparser.ConfigParser()
     config.read(CONFIG_FILE)
 
-    INIT_TEMP = config.get('User', 'INIT_TEMP')
+    INIT_TEMP = int(config.get('User', 'INIT_TEMP'))
     INIT_FAN_MODE = config.get('User', 'INIT_FAN_MODE')
-    LIGHT_COUNT = config.get('User', 'LIGHT_COUNT')
+    LIGHT_COUNT = int(config.get('User', 'LIGHT_COUNT'))
 
     if config.get('RS485', 'type') == 'serial':
         import serial
