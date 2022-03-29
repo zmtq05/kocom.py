@@ -73,3 +73,11 @@ fan:
 (2019.11.13오후 수정) Rese님 요청으로, socket용 draft version도 올립니다. (압축파일 내 kocom.py를 대체하세요) serial 연결부분을 socket 연결로 바꾸고, read()-->recv(1), write()-->send()로만 딱 변경했습니다. ser2net python파일로 1분간 작동유무만 테스트하여, 장기적인 안정성은 테스트되지 않았습니다. python 소스코드 내에 소켓 연결할 ip/port 를 기입하도록 되어있으니 수정하셔서 사용하시면 됩니다.
 
 (2019.11.13수정) checksum 을 계산하다보니 아무래도 header는 aa55까지인 것 같습니다. 다시 수정하였습니다. python 소스코드도 수정되었습니다
+
+[forum]: https://cafe.naver.com/koreassistant
+[github]: https://github.com/clipman/kocom.py
+[aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
+[amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
+[armhf-shield]: https://img.shields.io/badge/armhf-yes-green.svg
+[armv7-shield]: https://img.shields.io/badge/armv7-yes-green.svg
+[i386-shield]: https://img.shields.io/badge/i386-yes-green.svg
