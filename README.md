@@ -4,7 +4,8 @@
 
 (2022-03-29 수정) 전열교환기(Fan) 프리셋모드 추가 및 초기모드 사용자 설정, 난방 초기온도 설정
 
-# Example configuration.yaml with command templates
+Example configuration.yaml with command templates
+
 fan:
   - platform: mqtt
     name: Livingroom Fan
