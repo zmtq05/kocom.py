@@ -24,7 +24,7 @@ import configparser
 
 # define -------------------------------
 INIT_TEMP = 23
-INIT_FAN_MODE = '2'
+INIT_FAN_MODE = '2'  #'1': Low, '2': Medium, '3': High
 LIGHT_COUNT = 2
 
 CONFIG_FILE = 'kocom.conf'
