@@ -23,10 +23,6 @@ import configparser
 
 
 # define -------------------------------
-#INIT_TEMP = 23
-#INIT_FAN_MODE = '2'  #'1': Low, '2': Medium, '3': High
-#LIGHT_COUNT = 2
-
 CONFIG_FILE = 'kocom.conf'
 BUF_SIZE = 100
 
@@ -286,14 +282,14 @@ def parse(hex_data):
 def thermo_parse(value):
     ret = { 'heat_mode': 'heat' if value[:2]=='11' else 'off',
             'away': 'true' if value[2:4]=='01' else 'false',
-            'set_temp': int(value[4:6], 16) if value[:2]=='11' else INIT_TEMP,
+            'set_temp': int(value[4:6], 16) if value[:2]=='11' else int(config.get('User', 'init_temp')),
             'cur_temp': int(value[8:10], 16)}
     return ret
 
 
 def light_parse(value):
     ret = {}
-    for i in range(1, LIGHT_COUNT+1):
+    for i in range(1, int(config.get('User', 'light_count'))+1):
         ret['light_'+str(i)] = 'off' if value[i*2-2:i*2] == '00' else 'on'
     return ret
 
@@ -410,7 +406,7 @@ def mqtt_on_message(mqttc, obj, msg):
         dev_id = device_h_dic['thermo']+'{0:02x}'.format(int(topic_d[3]))
         q = query(dev_id)
         #settemp_hex = q['value'][4:6] if q['flag']!=False else '14'
-        settemp_hex = '{0:02x}'.format(INIT_TEMP) if q['flag']!=False else '14'
+        settemp_hex = '{0:02x}'.format(int(config.get('User', 'init_temp'))) if q['flag']!=False else '14'
         value = heatmode_dic.get(command) + '00' + settemp_hex + '0000000000' 
         send_wait_response(dest=dev_id, value=value, log='thermo heatmode')
 
@@ -488,9 +484,10 @@ def mqtt_on_message(mqttc, obj, msg):
         dev_id = device_h_dic['fan'] + room_h_dic.get(topic_d[1])
         onoff_dic = {'off':'1000', 'on':'1100'}  #onoff_dic = {'off':'0000', 'on':'1101'}
         speed_dic = {'1':'40', '2':'80', '3':'c0'}
+        init_fan_mode = config.get('User', 'init_fan_mode')
         if command in onoff_dic.keys(): # fan on off with previous speed 
             onoff = onoff_dic.get(command)
-            speed = speed_dic.get(INIT_FAN_MODE)  #value = query(dev_id)['value']  #speed = value[4:6]
+            speed = speed_dic.get(init_fan_mode)  #value = query(dev_id)['value']  #speed = value[4:6]
 
         value = onoff + speed + '0'*10
         send_wait_response(dest=dev_id, value=value, log='fan')
@@ -667,10 +664,6 @@ if __name__ == "__main__":
 
     config = configparser.ConfigParser()
     config.read(CONFIG_FILE)
-
-    INIT_TEMP = int(config.get('User', 'INIT_TEMP'))
-    INIT_FAN_MODE = config.get('User', 'INIT_FAN_MODE')
-    LIGHT_COUNT = int(config.get('User', 'LIGHT_COUNT'))
 
     if config.get('RS485', 'type') == 'serial':
         import serial
