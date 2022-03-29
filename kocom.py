@@ -468,17 +468,14 @@ def mqtt_on_message(mqttc, obj, msg):
         elif command == 'off':
             threading.Thread(target=mqttc.publish, args=("kocom/myhome/elevator/state", state_off)).start()
 
-    # kocom/livingroom/fan/set_level/command
-    elif 'fan' in topic_d and 'set_level' in topic_d:
+    # kocom/livingroom/fan/set_preset_mode/command
+    elif 'fan' in topic_d and 'set_preset_mode' in topic_d:
         dev_id = device_h_dic['fan'] + room_h_dic.get(topic_d[1])
         onoff_dic = {'off':'1000', 'on':'1100'}  #onoff_dic = {'off':'0000', 'on':'1101'}
         speed_dic = {'1':'40', '2':'80', '3':'c0'}
         if command == '0':
-            command = 'off'
-        if command in onoff_dic.keys(): # fan on off with previous speed 
-            value = query(dev_id)['value']
-            onoff = onoff_dic.get(command)
-            speed = value[4:6]
+            onoff = onoff_dic['off'] 
+            speed = '00'
         elif command in speed_dic.keys(): # fan on with specified speed
             onoff = onoff_dic['on'] 
             speed = speed_dic.get(command)
@@ -491,15 +488,9 @@ def mqtt_on_message(mqttc, obj, msg):
         dev_id = device_h_dic['fan'] + room_h_dic.get(topic_d[1])
         onoff_dic = {'off':'1000', 'on':'1100'}  #onoff_dic = {'off':'0000', 'on':'1101'}
         speed_dic = {'1':'40', '2':'80', '3':'c0'}
-        if command == '0':
-            command = 'off'
         if command in onoff_dic.keys(): # fan on off with previous speed 
-            value = query(dev_id)['value']
             onoff = onoff_dic.get(command)
-            speed = speed_dic.get(INIT_FAN_MODE)  #speed = value[4:6]
-        elif command in speed_dic.keys(): # fan on with specified speed
-            onoff = onoff_dic['on'] 
-            speed = speed_dic.get(command)
+            speed = speed_dic.get(INIT_FAN_MODE)  #value = query(dev_id)['value']  #speed = value[4:6]
 
         value = onoff + speed + '0'*10
         send_wait_response(dest=dev_id, value=value, log='fan')
