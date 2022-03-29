@@ -23,9 +23,9 @@ import configparser
 
 
 # define -------------------------------
-INIT_TEMP = 23
-INIT_FAN_MODE = '2'  #'1': Low, '2': Medium, '3': High
-LIGHT_COUNT = 2
+#INIT_TEMP = 23
+#INIT_FAN_MODE = '2'  #'1': Low, '2': Medium, '3': High
+#LIGHT_COUNT = 2
 
 CONFIG_FILE = 'kocom.conf'
 BUF_SIZE = 100
@@ -667,6 +667,10 @@ if __name__ == "__main__":
 
     config = configparser.ConfigParser()
     config.read(CONFIG_FILE)
+
+    INIT_TEMP = config.get('User', 'INIT_TEMP')
+    INIT_FAN_MODE = config.get('User', 'INIT_FAN_MODE')
+    LIGHT_COUNT = config.get('User', 'LIGHT_COUNT')
 
     if config.get('RS485', 'type') == 'serial':
         import serial
