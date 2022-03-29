@@ -24,6 +24,7 @@ import configparser
 
 # define -------------------------------
 INIT_TEMP = 23
+INIT_FAN_MODE = 2
 LIGHT_COUNT = 2
 
 CONFIG_FILE = 'kocom.conf'
@@ -498,7 +499,8 @@ def mqtt_on_message(mqttc, obj, msg):
             speed = value[4:6]
         elif command in speed_dic.keys(): # fan on with specified speed
             onoff = onoff_dic['on'] 
-            speed = speed_dic.get(command)
+            #speed = speed_dic.get(command)
+            speed = speed_dic.get(INIT_FAN_MODE)
 
         value = onoff + speed + '0'*10
         send_wait_response(dest=dev_id, value=value, log='fan')
