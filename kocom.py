@@ -23,10 +23,11 @@ import configparser
 
 
 # define -------------------------------
+INIT_TEMP = 23
+LIGHT_COUNT = 2
 
 CONFIG_FILE = 'kocom.conf'
 BUF_SIZE = 100
-INIT_TEMP = 23
 
 read_write_gap = 0.03  # minimal time interval between last read to write
 polling_interval = 300  # polling interval
@@ -284,14 +285,14 @@ def parse(hex_data):
 def thermo_parse(value):
     ret = { 'heat_mode': 'heat' if value[:2]=='11' else 'off',
             'away': 'true' if value[2:4]=='01' else 'false',
-            'set_temp': int(value[4:6], 16),
+            'set_temp': int(value[4:6], 16) if value[:2]=='11' else INIT_TEMP,
             'cur_temp': int(value[8:10], 16)}
     return ret
 
 
 def light_parse(value):
     ret = {}
-    for i in range(1,3):
+    for i in range(1, LIGHT_COUNT+1):
         ret['light_'+str(i)] = 'off' if value[i*2-2:i*2] == '00' else 'on'
     return ret
 
@@ -407,7 +408,8 @@ def mqtt_on_message(mqttc, obj, msg):
 
         dev_id = device_h_dic['thermo']+'{0:02x}'.format(int(topic_d[3]))
         q = query(dev_id)
-        settemp_hex = q['value'][4:6] if q['flag']!=False else '14'
+        #settemp_hex = q['value'][4:6] if q['flag']!=False else '14'
+        settemp_hex = '{0:02x}'.format(INIT_TEMP) if q['flag']!=False else '14'
         value = heatmode_dic.get(command) + '00' + settemp_hex + '0000000000' 
         send_wait_response(dest=dev_id, value=value, log='thermo heatmode')
 
