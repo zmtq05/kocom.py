@@ -1,6 +1,6 @@
 {
   "name": "Kocom Wallpad with RS485",
-  "version": "2022.03.30",
+  "version": "2022.03.31",
   "slug": "kocom_wallpad_ha",
   "description": "Kocom Wallpad for Home Assistant",
   "arch": [
@@ -16,5 +16,13 @@
   "uart": true,
   "map": [
     "share:rw"
-  ]
+  ],
+  "options": {
+    "share/kocom/kocom.conf 설정파일": true,
+    "share/kocom/kocom.py 실행파일": true
+  },
+  "schema": {
+    "share/kocom/kocom.conf 설정파일": "bool",
+    "share/kocom/kocom.py 실행파일": "bool"
+  }
 }
