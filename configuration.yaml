@@ -1,3 +1,6 @@
+switch: !include switchs.yaml
+climate: !include climate.yaml
+
 # Kocom RS485
 fan:
   - platform: mqtt
