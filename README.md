@@ -5,7 +5,7 @@
 ## About
 Kocom Wallpad with RS485
 
-## Version : 1.0.0
+## Version : 2022.03.30
 - Kocom Wallpad with RS485
 
 ## Installation
