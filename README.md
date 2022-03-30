@@ -23,34 +23,16 @@ Kocom Wallpad with RS485
 
 ## Configuration
 
-Add-on configuration:
+configuration.yaml
+switchs.yaml
+climate.yaml
+...
 
 ## Change log
 
 (2022-03-30 수정) Home Assistant Supervisor Add-on에서 실행되도록 수정
 
 (2022-03-29 수정) 전열교환기(Fan) 프리셋모드 추가 및 초기모드 사용자 설정, 난방 초기온도 사용자 설정
-
-Example configuration.yaml with command templates
-
-fan:
-  - platform: mqtt
-    name: Livingroom Fan
-    command_topic: "kocom/livingroom/fan/command"
-    state_topic: "kocom/livingroom/fan/state"
-    state_value_template: "{{ value_json.state }}"
-    preset_mode_state_topic: "kocom/livingroom/fan/state"
-    preset_mode_value_template: "{{ value_json.level }}"
-    preset_mode_command_topic: "kocom/livingroom/fan/set_preset_mode/command"
-    preset_mode_command_template: "{{ value }}"
-    preset_modes:
-      - "0"
-      - "1"
-      - "2"
-      - "3"
-    payload_on: "on"
-    payload_off: "off"
-    qos: 0
 
 -------------------------------------------------------------------------------------
 
