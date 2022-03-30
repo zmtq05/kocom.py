@@ -247,24 +247,6 @@ def chksum(data_h):
     return '{0:02x}'.format((sum_buf)%256)  # return chksum hex value in text format
 
 
-def send_packet(send_data):
-    send_lock.acquire()
-    ret = False
-    try:
-        if rs485.write(bytearray.fromhex(send_data)) == False:
-            raise Exception('Not ready')
-        ret = send_data
-    except Exception as ex:
-        logging.error("[RS485] Write error.[{}]".format(ex) )
-    logging.info('[SEND] {}'.format(send_data))
-
-    if ret == False:
-        logging.info('[RS485] send failed. closing RS485. it will try to reconnect to RS485 shortly.')
-        rs485.close()
-    send_lock.release()
-    return ret
-
-
 # hex parsing --------------------------------
 
 def parse(hex_data):
