@@ -26,7 +26,7 @@ Kocom Wallpad with RS485
 configuration.yaml
 switchs.yaml
 climate.yaml
-...
+이 파일들을 참고하여 설정합니다.
 
 ## Change log
 
