@@ -5,9 +5,6 @@
 ## About
 Kocom Wallpad with RS485
 
-## Version : 2022.03.30
-- Kocom Wallpad with RS485
-
 ## Installation
 
 1. 홈어시스턴트의 Hass.io > ADD-ON STORE에서 Add new repository by URL에 https://github.com/clipman/kocom.py 를 입력한 다음 ADD 버튼을 누릅니다.
