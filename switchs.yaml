@@ -1,0 +1,27 @@
+# Kocom RS485
+- platform: mqtt
+  name: Kocom Wallpad Gas
+  command_topic: "kocom/livingroom/gas/command"
+  state_topic: "kocom/livingroom/gas/state"
+  value_template: "{{ value_json.state }}"
+  payload_on: "on"
+  payload_off: "off"
+  qos: 0
+
+- platform: mqtt
+  name: Kocom Wallpad Elevator
+  command_topic: "kocom/myhome/elevator/command"
+  state_topic: "kocom/myhome/elevator/state"
+  value_template: "{{ value_json.state }}"
+  payload_on: "on"
+  payload_off: "off"
+  qos: 0
+
+- platform: mqtt
+  name: Kocom Query Init
+  command_topic: "kocom/myhome/query/command"
+  state_topic: "kocom/myhome/query/state"
+  value_template: "{{ value_json.state }}"
+  payload_on: "on"
+  payload_off: "off"
+  qos: 0
