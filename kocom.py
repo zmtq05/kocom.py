@@ -247,6 +247,24 @@ def chksum(data_h):
     return '{0:02x}'.format((sum_buf)%256)  # return chksum hex value in text format
 
 
+def send_packet(send_data):
+    send_lock.acquire()
+    ret = False
+    try:
+        if rs485.write(bytearray.fromhex(send_data)) == False:
+            raise Exception('Not ready')
+        ret = send_data
+    except Exception as ex:
+        logging.error("[RS485] Write error.[{}]".format(ex) )
+    logging.info('[SEND] {}'.format(send_data))
+
+    if ret == False:
+        logging.info('[RS485] send failed. closing RS485. it will try to reconnect to RS485 shortly.')
+        rs485.close()
+    send_lock.release()
+    return ret
+
+
 # hex parsing --------------------------------
 
 def parse(hex_data):
@@ -303,9 +321,10 @@ def fan_parse(value):
 
 # query device --------------------------
 
-def query(device_h, publish=False):
+def query(device_h, publish=False, enforce=False):
     # find from the cache first
     for c in cache_data:
+        if enforce: break
         if time.time() - c['time'] > polling_interval:  # if there's no data within polling interval, then exit cache search
             break
         if c['type']=='ack' and c['src']=='wallpad' and c['dest_h']==device_h and c['cmd']!='query':
@@ -492,6 +511,11 @@ def mqtt_on_message(mqttc, obj, msg):
         value = onoff + speed + '0'*10
         send_wait_response(dest=dev_id, value=value, log='fan')
 
+    # kocom/myhome/query/command
+    elif 'query' in topic_d:
+        if command == 'on':
+            poll_state(enforce=True)
+
 
 #===== parse hex packet --> publish MQTT =====
 
@@ -512,6 +536,10 @@ def packet_processor(p):
             state = light_parse(p['value'])
             logtxt='[MQTT publish|light] data[{}]'.format(state)
             mqttc.publish("kocom/livingroom/light/state", json.dumps(state))
+
+            state = {'state': 'off'}
+            logtxt='[MQTT publish|query] data[{}]'.format(state)
+            mqttc.publish("kocom/myhome/query/state", json.dumps(state))
         elif p['dest'] == 'fan' and p['cmd']=='state':
         #elif p['src'] == 'fan' and p['cmd']=='state':
             state = fan_parse(p['value'])
@@ -541,7 +569,7 @@ def packet_processor(p):
 
 #===== thread functions ===== 
 
-def poll_state():
+def poll_state(enforce=False):
     global poll_timer
     poll_timer.cancel()
 
@@ -566,7 +594,7 @@ def poll_state():
             sub_id = '00'
 
         if dev_id != None and sub_id != None:
-            if query(dev_id + sub_id, publish=True)['flag'] == False:
+            if query(dev_id + sub_id, publish=True, enforce=enforce)['flag'] == False:
                 break
             time.sleep(1)
 
