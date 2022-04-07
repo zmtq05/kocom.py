@@ -20,16 +20,11 @@ Kocom Wallpad with RS485
 share/kocom/ 폴더에 있는 파일을 알맞게 수정하신 다음에
 애드온을 Start 하시면 이후부터는 수정된 파일을 적용합니다.
 
-## Configuration
-
-configuration.yaml
-switchs.yaml
-climate.yaml
-이 파일들을 참고하여 설정합니다.
-
 ## Change log
 
-(2022-03-31 수정) Kocom Query Init Switch(switch.kocom_query_init) 추가, on이면 강제로 Query 실행후 off로 변경됨
+(2022-04-08 수정) MQTT Discovery 지원
+
+(2022-03-31 수정) Kocom Query Init Switch(switch.kocom_wallpad_query) 추가, on이면 강제로 Query 실행후 off로 변경됨
 
 (2022-03-30 수정) Home Assistant Supervisor Add-on에서 실행되도록 수정
 
