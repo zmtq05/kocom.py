@@ -24,8 +24,6 @@ share/kocom/ 폴더에 있는 파일을 알맞게 수정하신 다음에
 
 (2022-04-08 수정) MQTT Discovery 지원
 
-(2022-03-31 수정) Kocom Query Init Switch(switch.kocom_wallpad_query) 추가, on이면 강제로 Query 실행후 off로 변경됨
-
 (2022-03-30 수정) Home Assistant Supervisor Add-on에서 실행되도록 수정
 
 (2022-03-29 수정) 전열교환기(Fan) 프리셋모드 추가 및 초기모드 사용자 설정, 난방 초기온도 사용자 설정
