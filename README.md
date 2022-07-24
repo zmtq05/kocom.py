@@ -22,6 +22,8 @@ share/kocom/ 폴더에 있는 파일을 알맞게 수정하신 다음에
 
 ## Change log
 
+(2022-07-24 수정) config.json을 config.yaml로 변환
+
 (2022-04-10 수정) MQTT Discovery 지원
 
 (2022-03-30 수정) Home Assistant Supervisor Add-on에서 실행되도록 수정
