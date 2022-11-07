@@ -3,7 +3,7 @@
 ![Supports aarch64 Architecture][aarch64-shield] ![Supports amd64 Architecture][amd64-shield] ![Supports armhf Architecture][armhf-shield] ![Supports armv7 Architecture][armv7-shield] ![Supports i386 Architecture][i386-shield]
 
 ## About
-Kocom Wallpad with RS485
+Kocom Wallpad with RS485 for 힐스테이트푸르지오수원
 
 ## Installation
 
@@ -21,6 +21,8 @@ share/kocom/ 폴더에 있는 파일을 알맞게 수정하신 다음에
 애드온을 Start 하시면 이후부터는 수정된 파일을 적용합니다.
 
 ## Change log
+
+(2022-11-07 수정) bedroom 삭제, room1,2,3으로 변경, kitchen 추가, 환기On/Off 제어 변경
 
 (2022-07-24 수정) config.json을 config.yaml로 변환
 
