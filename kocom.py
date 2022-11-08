@@ -303,6 +303,9 @@ def fan_parse(value):
     state = 'off' if value[:2] == '10' else 'on'
 #   state = 'off' if value[:2] == '00' else 'on'
     preset = 'Off' if state == 'off' else preset_dic.get(value[4:6])
+    logtxt='[MQTT Parse | Fan] value[{}], state[{}]'.format(value, state)    # 20221108 주석기능 추가
+    if logtxt != "" and config.get('Log', 'show_recv_hex') == 'True':
+        logging.info(logtxt)
     return { 'state': state, 'preset': preset}
 
 
