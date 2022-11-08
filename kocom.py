@@ -648,8 +648,7 @@ def publish_discovery(dev, sub=''):
             payload = {
                 'name': 'Kocom {} Light{}'.format(sub, num),
                 'cmd_t': 'kocom/{}/light/{}/command'.format(sub, num),
-#               'stat_t': 'kocom/{}/light/state'.format(sub),                      # 20221108 주석처리
-                'stat_t': 'kocom/{}-{}/light/state'.format(sub, num),              # 20221108 수정
+                'stat_t': 'kocom/{}/light/state'.format(sub),
                 'stat_val_tpl': '{{ value_json.light_' + str(num) + ' }}',
                 'pl_on': 'on',
                 'pl_off': 'off',
