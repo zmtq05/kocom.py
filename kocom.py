@@ -556,7 +556,10 @@ def discovery():
         sub = ''
         if len(dev) > 1:
             sub = dev[1]
+        logtxt='[MQTT Discovery|{}] data[{}]'.format(dev[0], sub)
         publish_discovery(dev[0], sub)
+        if logtxt != "" and config.get('Log', 'show_mqtt_discovery') == 'True':
+            logging.info(logtxt)
     publish_discovery('query')
 
 #https://www.home-assistant.io/docs/mqtt/discovery/
