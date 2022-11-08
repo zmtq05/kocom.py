@@ -648,12 +648,14 @@ def publish_discovery(dev, sub=''):
             payload = {
                 'name': 'Kocom {} Light{}'.format(sub, num),
                 'cmd_t': 'kocom/{}/light/{}/command'.format(sub, num),
-                'stat_t': 'kocom/{}/light/state'.format(sub),
+#               'stat_t': 'kocom/{}/light/state'.format(sub),                      # 20221108 주석처리
+                'stat_t': 'kocom/{}/light/{}/state'.format(sub, num),              # 20221108 수정
                 'stat_val_tpl': '{{ value_json.light_' + str(num) + ' }}',
                 'pl_on': 'on',
                 'pl_off': 'off',
                 'qos': 0,
-                'uniq_id': '{}_{}_{}{}'.format('kocom', 'wallpad', dev, num),
+#               'uniq_id': '{}_{}_{}{}'.format('kocom', 'wallpad', dev, num),      # 20221108 주석처리
+                'uniq_id': '{}_{}_{}{}'.format('kocom', sub, dev, num),            # 20221108 수정
                 'device': {
                     'name': '코콤 스마트 월패드',
                     'ids': 'kocom_smart_wallpad',
