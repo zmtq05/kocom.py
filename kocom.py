@@ -647,8 +647,9 @@ def publish_discovery(dev, sub=''):
             topic = 'homeassistant/light/kocom_{}_light{}/config'.format(sub, num)
             payload = {
                 'name': 'Kocom {} Light{}'.format(sub, num),
-                'cmd_t': 'kocom/{}/light/{}/command'.format(sub, num),
+#               'cmd_t': 'kocom/{}/light/{}/command'.format(sub, num),             # 20221108 주석처리
 #               'stat_t': 'kocom/{}/light/state'.format(sub),                      # 20221108 주석처리
+                'cmd_t': 'kocom/{}/light/{}/switch'.format(sub, num),              # 20221108 수정
                 'stat_t': 'kocom/{}/light/{}/state'.format(sub, num),              # 20221108 수정
                 'stat_val_tpl': '{{ value_json.light_' + str(num) + ' }}',
                 'pl_on': 'on',
