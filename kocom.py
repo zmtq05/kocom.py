@@ -23,7 +23,7 @@ import configparser
 
 
 # define -------------------------------
-SW_VERSION = '2022.04.10'
+SW_VERSION = '2022.11.08'
 CONFIG_FILE = 'kocom.conf'
 BUF_SIZE = 100
 
@@ -300,7 +300,7 @@ def light_parse(value):
 
 def fan_parse(value):
     preset_dic = {'40':'Low', '80':'Medium', 'c0':'High'}
-    state = 'off' if value[:2] == '10' else 'on'
+    state = 'off' if value[:2] == '11' else 'on'
 #    state = 'off' if value[:2] == '00' else 'on'
     preset = 'Off' if state == 'off' else preset_dic.get(value[4:6])
     return { 'state': state, 'preset': preset}
