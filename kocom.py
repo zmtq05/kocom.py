@@ -300,8 +300,8 @@ def light_parse(value):
 
 def fan_parse(value):
     preset_dic = {'40':'Low', '80':'Medium', 'c0':'High'}
-    state = 'off' if value[:2] == '10' else 'on'
-#   state = 'off' if value[:2] == '00' else 'on'
+#   state = 'off' if value[:2] == '10' else 'on'
+    state = 'off' if value[:2] == '00' else 'on'
     preset = 'Off' if state == 'off' else preset_dic.get(value[4:6])
     logtxt='[MQTT Parse | Fan] value[{}], state[{}]'.format(value, state)    # 20221108 주석기능 추가
     if logtxt != "" and config.get('Log', 'show_recv_hex') == 'True':
@@ -479,8 +479,8 @@ def mqtt_on_message(mqttc, obj, msg):
     # kocom/livingroom/fan/set_preset_mode/command
     elif 'fan' in topic_d and 'set_preset_mode' in topic_d:
         dev_id = device_h_dic['fan'] + room_h_dic.get(topic_d[1])
-       #onoff_dic = {'off':'0000', 'on':'1101'}  
-        onoff_dic = {'off':'1000', 'on':'1100'}
+        onoff_dic = {'off':'0000', 'on':'1101'}  
+       #onoff_dic = {'off':'1000', 'on':'1100'}
         speed_dic = {'Off':'00', 'Low':'40', 'Medium':'80', 'High':'c0'}
         if command == 'Off':
             onoff = onoff_dic['off']
@@ -494,8 +494,8 @@ def mqtt_on_message(mqttc, obj, msg):
     # kocom/livingroom/fan/command
     elif 'fan' in topic_d:
         dev_id = device_h_dic['fan'] + room_h_dic.get(topic_d[1])
-       #onoff_dic = {'off':'0000', 'on':'1101'}  
-        onoff_dic = {'off':'1000', 'on':'1100'}
+        onoff_dic = {'off':'0000', 'on':'1101'}  
+       #onoff_dic = {'off':'1000', 'on':'1100'}
         speed_dic = {'Low':'40', 'Medium':'80', 'High':'c0'}
         init_fan_mode = config.get('User', 'init_fan_mode')
         if command in onoff_dic.keys(): # fan on off with previous speed
