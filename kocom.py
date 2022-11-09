@@ -581,7 +581,8 @@ def publish_discovery(dev, sub=''):
             'pr_mode_val_tpl': '{{ value_json.preset }}',
             'pr_mode_cmd_t': 'kocom/livingroom/fan/set_preset_mode/command',
             'pr_mode_cmd_tpl': '{{ value }}',
-            'pr_modes': ['Off', 'Low', 'Medium', 'High'],
+#           'pr_modes': ['Off', 'Low', 'Medium', 'High'],      # 20221108 주석처리
+            'pr_modes': ['Low', 'Medium', 'High'],             # 20221108 
             'pl_on': 'on',
             'pl_off': 'off',
             'qos': 0,
