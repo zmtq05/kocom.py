@@ -832,7 +832,7 @@ def publish_discovery(dev, sub=''):
         # ha_topic = 'homeassistant/climate/kocom_livingroom_thermostat/config'
         topic = 'homeassistant/climate/kocom_{}_ac/config'.format(num)
         payload = {
-            'name': 'kocom_ac_{}'.format(num),
+            'name': 'kocom_ac_{}'.format(sub),
             'mode_cmd_t': 'kocom/room/ac/{}/ac_mode/command'.format(num),
             'mode_stat_t': 'kocom/room/ac/{}/state'.format(num),
             'mode_stat_tpl': '{{ value_json.state }}',
@@ -851,16 +851,16 @@ def publish_discovery(dev, sub=''):
             'fan_modes': ['LOW', 'MEDIUM', 'HIGH'],
             'min_temp': 10,
             'max_temp': 30,
-            'uniq_id': 'kocom_ac_{}'.format(num),
+            'uniq_id': 'kocom_ac_{}'.format(sub),
             'device': {
-                'name': 'kocom_wallpad',
-                'ids': 'kocom_wallpad',
+                'name': '코콤 스마트 월패드',
+                'ids': 'kocom_smart_wallpad',
                 'mf': 'KOCOM',
-                'mdl': 'KOCOM Wallpad',
+                'mdl': 'K스마트 월패드',
                 'sw': SW_VERSION
             }
         }
-        logtxt = '[MQTT Discovery|{}{}] data[{}]'.format(dev, num, topic)
+        logtxt = '[MQTT Discovery|{}{}] data[{}]'.format(dev, sub, topic)
         mqttc.publish(topic, json.dumps(payload), retain=True)
         if logtxt != '' and config.get('Log', 'show_mqtt_publish') == 'True':
             logging.info(logtxt)
