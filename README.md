@@ -21,6 +21,8 @@ Kocom Wallpad with RS485 for 힐스테이트푸르지오수원
 
 ## Change log
 
+(2023-08-03 수정) harwin1 에어컨 소스 반영 ( https://cafe.naver.com/koreassistant/13787 )
+
 (2022-11-07 수정) bedroom 삭제, room1,2,3으로 변경, kitchen 추가, 환기On/Off 제어 1,2,3단 반영
 
 -------------------------------------------------------------------------------------
