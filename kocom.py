@@ -23,7 +23,7 @@ import configparser
 
 
 # define -------------------------------
-SW_VERSION = '2023.08.001'
+SW_VERSION = '2023.08.002'
 CONFIG_FILE = 'kocom.conf'
 BUF_SIZE = 100
 
@@ -656,10 +656,9 @@ def discovery():
         if device in ['light', 'thermo', 'ac']:
             device_rooms = [x.strip() for x in config.get('Device', device+'_room').split(',')]
         for room in device_rooms:
-                        
-            log_txt = '[MQTT Discovery|{}] data[{}]'.format(device, room)
+            logtxt = '[MQTT Discovery|{}] data[{}]'.format(device, room)
             publish_discovery(device, room)
-            if log_txt and config.get('Log', 'show_mqtt_discovery') == 'True':
+            if logtxt and config.get('Log', 'show_mqtt_discovery') == 'True':
             logging.info(logtxt)
     publish_discovery('query')
 
