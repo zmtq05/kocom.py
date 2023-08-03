@@ -658,8 +658,8 @@ def discovery():
         for room in device_rooms:
             logtxt = '[MQTT Discovery|{}] data[{}]'.format(device, room)
             publish_discovery(device, room)
-            if logtxt and config.get('Log', 'show_mqtt_discovery') == 'True':
-            logging.info(logtxt)
+            if logtxt != "" and config.get('Log', 'show_mqtt_discovery') == 'True':
+                logging.info(logtxt)
     publish_discovery('query')
 
 #https://www.home-assistant.io/docs/mqtt/discovery/
