@@ -832,7 +832,7 @@ def publish_discovery(dev, sub=''):
         # ha_topic = 'homeassistant/climate/kocom_livingroom_thermostat/config'
         topic = 'homeassistant/climate/kocom_{}_ac/config'.format(num)
         payload = {
-            'name': 'kocom_ac_{}'.format(sub),
+            'name': 'kocom_ac_{}'.format(num),
             'mode_cmd_t': 'kocom/room/ac/{}/ac_mode/command'.format(num),
             'mode_stat_t': 'kocom/room/ac/{}/state'.format(num),
             'mode_stat_tpl': '{{ value_json.state }}',
@@ -851,7 +851,7 @@ def publish_discovery(dev, sub=''):
             'fan_modes': ['LOW', 'MEDIUM', 'HIGH'],
             'min_temp': 10,
             'max_temp': 30,
-            'uniq_id': 'kocom_ac_{}'.format(sub),
+            'uniq_id': 'kocom_ac_{}'.format(num),
             'device': {
                 'name': '코콤 스마트 월패드',
                 'ids': 'kocom_smart_wallpad',
