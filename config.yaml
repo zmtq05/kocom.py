@@ -1,6 +1,6 @@
 ---
 name: Kocom Wallpad with RS485 for 힐스테이트푸르지오수원
-version: 2023.08.007
+version: 2023.08.008
 slug: kocom_py
 description: Kocom Wallpad for Home Assistant
 arch:
