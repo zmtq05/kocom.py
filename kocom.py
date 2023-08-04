@@ -309,50 +309,6 @@ def fan_parse(value):
         logging.info(logtxt)
     return { 'state': state, 'preset': preset}
 
-# 2023.08 AIR 추가
-def air_parse(value):
-    def calculate_air_quality(temperature, humidity, co2, tvocs, pm10, pm25):
-        air_quality_score = 0
-        if 18 <= temperature <= 26:
-            air_quality_score += 20
-        elif 15 <= temperature <= 30:
-            air_quality_score += 10
-        if 40 <= humidity <= 60:
-            air_quality_score += 20
-        elif 30 <= humidity <= 70:
-            air_quality_score += 10
-        if co2 <= 500:
-            air_quality_score += 20
-        elif co2 <= 1000:
-            air_quality_score += 10
-        if tvocs <= 50:
-            air_quality_score += 20
-        elif tvocs <= 100:
-            air_quality_score += 10
-        if pm10 <= 30:
-            air_quality_score += 20
-        elif pm10 <= 50:
-            air_quality_score += 10
-        if pm25 <= 15:
-            air_quality_score += 20
-        elif pm25 <= 25:
-            air_quality_score += 10
-        return air_quality_score
-
-    airAttr = {
-        'pm10': int(value[:2], 16),
-        'pm25': int(value[2:4], 16),
-        'co2': int(value[4:8], 16),
-        'tvocs': int(value[8:12], 16),
-        'temperature': int(value[12:14], 16),
-        'humidity': int(value[14:16], 16)
-    }
-    airAttr['score'] = calculate_air_quality(airAttr['temperature'], airAttr['humidity'], airAttr['co2'], airAttr['tvocs'], airAttr['pm10'], airAttr['pm25'])
-    logtxt = '[MQTT Parse | Air] value[{}], state[{}]'.format(value, airAttr)    # 20221108 주석기능 추가
-    if logtxt != '' and config.get('Log', 'show_recv_hex') == 'True':
-        logging.info(logtxt)
-    return airAttr
-
 # 2023.08 AC 추가
 def ac_parse(value):
     mode_dic = {'00': 'cool', '01': 'fan_only', '02': 'dry', '03': 'auto'}
@@ -474,7 +430,7 @@ def mqtt_on_message(mqttc, obj, msg):
         dev_id = device_h_dic['thermo']+'{0:02x}'.format(int(topic_d[3]))
         q = query(dev_id)
         #settemp_hex = q['value'][4:6] if q['flag']!=False else '14'
-        settemp_hex = '{0:02x}'.format(int(config.get('User', 'init_temp'))) if q['flag']!=False else '14'
+        settemp_hex = '{0:02x}'.format(int(config.get('User', 'thermo_init_temp'))) if q['flag']!=False else '14'
         value = heatmode_dic.get(command) + '00' + settemp_hex + '0000000000'
         send_wait_response(dest=dev_id, value=value, log='thermo heatmode')
 
@@ -651,15 +607,26 @@ def packet_processor(p):
 #===== publish MQTT Devices Discovery =====
 
 def discovery():
-    enabled_devices = [x.strip() for x in config.get('Device', 'enabled').split(',')]
-    for device in enabled_devices:
-        if device in ['light', 'thermo', 'ac']:
-            device_rooms = [x.strip() for x in config.get('Device', device+'_room').split(',')]
-        for room in device_rooms:
-            logtxt = '[MQTT Discovery|{}] data[{}]'.format(device, room)
-            publish_discovery(device, room)
-            if logtxt != "" and config.get('Log', 'show_mqtt_discovery') == 'True':
-                logging.info(logtxt)
+    dev_list = [x.strip() for x in config.get('Device','enabled').split(',')]
+    for t in dev_list:
+        dev = t.split('_')
+        sub = ''
+        if len(dev) > 1:
+            sub = dev[1]
+        logtxt='[MQTT Discovery|{}] data[{}]'.format(dev[0], sub)
+        publish_discovery(dev[0], sub)
+        if logtxt != "" and config.get('Log', 'show_mqtt_discovery') == 'True':
+            logging.info(logtxt)
+    
+    # AC부분 분리
+    ac_list = [x.strip() for x in config.get('Device','ac_list').split(',')]
+    for t in ac_list:
+        dev = 'ac'
+        room = ac_list;
+        logtxt='[MQTT Discovery|{}] data[{}]'.format(dev, room)
+        if logtxt != "" and config.get('Log', 'show_mqtt_discovery') == 'True':
+            logging.info(logtxt)
+
     publish_discovery('query')
 
 #https://www.home-assistant.io/docs/mqtt/discovery/
