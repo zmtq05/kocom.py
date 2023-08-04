@@ -23,7 +23,7 @@ import configparser
 
 
 # define -------------------------------
-SW_VERSION = '2023.08.005'
+SW_VERSION = '2023.08.006'
 CONFIG_FILE = 'kocom.conf'
 BUF_SIZE = 100
 
@@ -779,8 +779,8 @@ def publish_discovery(dev, sub=''):
                 'pl_on': 'on',
                 'pl_off': 'off',
 #               'uniq_id': '{}_{}_{}{}'.format('kocom', 'wallpad', dev, num),      # 20221108 주석처리
-#               'uniq_id': '{}_{}_{}{}'.format('kocom', sub, dev, num),            # 20221108 수정
-                'uniq_id': 'kocom_light_{}_{}'.format(sub2, num -1),
+                'uniq_id': '{}_{}_{}{}'.format('kocom', sub, dev, num),            # 20221108 수정
+#               'uniq_id': 'kocom_light_{}_{}'.format(sub2, num -1),
                 'device': {
                     'name': '코콤 스마트 월패드',
                     'ids': 'kocom_smart_wallpad',
