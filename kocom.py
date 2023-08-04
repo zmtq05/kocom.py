@@ -23,7 +23,7 @@ import configparser
 
 
 # define -------------------------------
-SW_VERSION = '2023.08.007'
+SW_VERSION = '2023.08.008'
 CONFIG_FILE = 'kocom.conf'
 BUF_SIZE = 100
 
@@ -767,11 +767,12 @@ def publish_discovery(dev, sub=''):
         if logtxt != "" and config.get('Log', 'show_mqtt_publish') == 'True':
             logging.info(logtxt)
     elif dev == 'light':
+        sub2 = room_h_dic.get(sub)
         for num in range(1, int(config.get('User', 'light_count'))+1):
             #ha_topic = 'homeassistant/light/kocom_livingroom_light1/config'
             topic = 'homeassistant/light/kocom_{}_light{}/config'.format(sub, num)
             payload = {
-                'name': 'Kocom {} Light{}'.format(sub, num),
+                'name': 'Kocom {} Light{}'.format(sub, num-1),
                 'cmd_t': 'kocom/{}/light/{}/command'.format(sub, num),
                 'stat_t': 'kocom/{}/light/state'.format(sub),
                 'stat_val_tpl': '{{ value_json.light_' + str(num) + ' }}',
@@ -779,7 +780,7 @@ def publish_discovery(dev, sub=''):
                 'pl_off': 'off',
                 'qos': 0,
 #               'uniq_id': '{}_{}_{}{}'.format('kocom', 'wallpad', dev, num),      # 20221108 주석처리
-                'uniq_id': '{}_{}_{}{}'.format('kocom', sub, dev, num),            # 20221108 수정
+                'uniq_id': '{}_{}_{}{}'.format('kocom', sub, dev, num-1 ),            # 20221108 수정
                                                                     
                 'device': {
                     'name': '코콤 스마트 월패드',
